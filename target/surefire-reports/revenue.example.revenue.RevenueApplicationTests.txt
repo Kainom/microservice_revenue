@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: revenue.example.revenue.RevenueApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.95 s -- in revenue.example.revenue.RevenueApplicationTests

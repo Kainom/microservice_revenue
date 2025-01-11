@@ -1,0 +1,10 @@
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/RevenueApplication.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/config/MongockConfig.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/controller/RevenueController.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/dto/RevenueDTO.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/migrations/DatabaseChangelog.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/model/Revenue.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/patterns/adapter/AdapterRevenue.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/patterns/adapter/IAdapterRevenue.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/repository/RevenueRepository.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/services/RevenueService.java
