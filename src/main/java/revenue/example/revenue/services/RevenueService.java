@@ -1,6 +1,7 @@
 package revenue.example.revenue.services;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -26,11 +27,26 @@ public class RevenueService {
                 revenueRepository.findRevenueById(id));
     }
 
+    public RevenueDTO getBySlug(String slug) {
+        return adapterRevenue.toRevenueDTO(
+                revenueRepository.findRevenueBySlug(slug));
+    }
+
     public List<RevenueDTO> getRevenues() {
         return revenueRepository.findAll()
                 .stream()
                 .map(adapterRevenue::toRevenueDTO)
                 .collect(Collectors.toList());
+    }
+
+    public RevenueDTO storeRevenue(RevenueDTO revenue) {
+        Revenue revenueModel = adapterRevenue.toRevenue(revenue);
+        revenueModel.setSlug(revenueModel.getSlug() + UUID.randomUUID().toString());
+        return adapterRevenue.toRevenueDTO(revenueRepository.save(revenueModel));
+    }
+
+    public void deleteRevenue(String id) {
+        revenueRepository.deleteById(id);
     }
 
 }

@@ -23,6 +23,9 @@ public class Revenue {
     private Boolean stats;
     private String instituition;
     private String slug;
-
+    private String description;
+    private String tipo;
+    private String indexado;
+    private Date carencia;
+    private Double finalInvestimento;
 }
-

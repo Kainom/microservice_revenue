@@ -18,7 +18,12 @@ public class AdapterRevenue implements IAdapterRevenue {
                 revenue.getLiquidez(),
                 revenue.getStats(),
                 revenue.getInstituition(),
-                revenue.getSlug());
+                revenue.getSlug(),
+                revenue.getDescription(),
+                revenue.getTipo(),
+                revenue.getIndexado(),
+                revenue.getCarencia(),
+                revenue.getFinalInvestimento());
     }
 
     public Revenue toRevenue(RevenueDTO revenueDTO) {
@@ -33,6 +38,11 @@ public class AdapterRevenue implements IAdapterRevenue {
                 .stats(revenueDTO.stats())
                 .instituition(revenueDTO.instituition())
                 .slug(revenueDTO.slug())
+                .description(revenueDTO.description())
+                .tipo(revenueDTO.tipo())
+                .indexado(revenueDTO.indexado())
+                .carencia(revenueDTO.carencia())
+                .finalInvestimento(revenueDTO.finalInvestimento())
                 .build();
     }
 
