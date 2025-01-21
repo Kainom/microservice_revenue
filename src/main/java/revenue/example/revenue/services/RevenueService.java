@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import revenue.example.revenue.dto.RevenueDTO;
@@ -39,12 +40,14 @@ public class RevenueService {
                 .collect(Collectors.toList());
     }
 
+    @CacheEvict(value = "revenues", allEntries = true)
     public RevenueDTO storeRevenue(RevenueDTO revenue) {
         Revenue revenueModel = adapterRevenue.toRevenue(revenue);
         revenueModel.setSlug(revenueModel.getSlug() + UUID.randomUUID().toString());
         return adapterRevenue.toRevenueDTO(revenueRepository.save(revenueModel));
     }
-
+ 
+    @CacheEvict(value = "revenues", key = "#id")
     public void deleteRevenue(String id) {
         revenueRepository.deleteById(id);
     }
