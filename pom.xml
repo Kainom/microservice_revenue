@@ -92,6 +92,11 @@
 			<artifactId>mongodb-springdata-v4-driver</artifactId>
 			<version>5.4.0</version> <!-- Use a versão compatível com sua configuração -->
 		</dependency>
+		<dependency>
+			<groupId>com.github.ben-manes.caffeine</groupId>
+			<artifactId>caffeine</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>

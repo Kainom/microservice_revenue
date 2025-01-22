@@ -3,6 +3,7 @@ package revenue.example.revenue.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,7 +25,11 @@ public class RevenueController {
 
     @GetMapping("/")
     public ResponseEntity<List<RevenueDTO>> getAll() {
+        Long start =  System.currentTimeMillis();
         List<RevenueDTO> revenues = revenueService.getRevenues();
+        Long end = System.currentTimeMillis();
+        System.out.println("Time taken by getAll: " + (end - start) + "ms");
+
         return ResponseEntity.ok(revenues);
     }
 
@@ -36,11 +41,13 @@ public class RevenueController {
     }
 
     @GetMapping("/slug/{slug}")
-    public ResponseEntity<RevenueDTO> create (@PathVariable("slug")String slug){
+    public ResponseEntity<RevenueDTO> create(@PathVariable("slug") String slug) {
+
         RevenueDTO revenue = revenueService.getBySlug(slug);
         return ResponseEntity.ok(revenue);
     }
 
+    
     @PostMapping("/")
     public ResponseEntity<RevenueDTO> create(@RequestBody RevenueDTO revenue) {
         RevenueDTO savedRevenue = revenueService.storeRevenue(revenue);
