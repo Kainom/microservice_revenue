@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import revenue.example.revenue.dto.RevenueDTO;
 import revenue.example.revenue.model.Revenue;
-import revenue.example.revenue.patterns.adapter.AdapterRevenue;
-import revenue.example.revenue.patterns.adapter.IAdapterRevenue;
+import revenue.example.revenue.patterns.adapter.revenue.AdapterRevenue;
+import revenue.example.revenue.patterns.adapter.revenue.IAdapterRevenue;
 import revenue.example.revenue.repository.RevenueRepository;
 
 @Service

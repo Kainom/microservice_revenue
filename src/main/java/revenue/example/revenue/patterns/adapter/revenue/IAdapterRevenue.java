@@ -1,4 +1,4 @@
-package revenue.example.revenue.patterns.adapter;
+package revenue.example.revenue.patterns.adapter.revenue;
 
 import revenue.example.revenue.dto.RevenueDTO;
 import revenue.example.revenue.model.Revenue;

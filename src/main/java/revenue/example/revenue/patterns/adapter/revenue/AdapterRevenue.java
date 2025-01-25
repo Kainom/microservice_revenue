@@ -1,4 +1,4 @@
-package revenue.example.revenue.patterns.adapter;
+package revenue.example.revenue.patterns.adapter.revenue;
 
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
 package revenue.example.revenue.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
-import lombok.Builder;
 import revenue.example.revenue.enums.CategoryExpense;
 
 public record ExpenseDTO(
@@ -10,9 +10,10 @@ public record ExpenseDTO(
         String nome,
         Double value,
         CategoryExpense category,
-        Date dataCriacao,
+        LocalDate dataCriacao,
         String description,
         String slug
         ) {
 
 }
+

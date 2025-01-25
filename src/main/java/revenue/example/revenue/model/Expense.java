@@ -1,5 +1,6 @@
 package revenue.example.revenue.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
@@ -21,7 +22,7 @@ public class Expense {
 
     private Double value;
 
-    private Date dataCriacao;
+    private LocalDate dataCriacao;
 
     @Field("category")
     private CategoryExpense category;
