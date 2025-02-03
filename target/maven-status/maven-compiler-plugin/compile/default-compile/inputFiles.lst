@@ -21,6 +21,8 @@
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/patterns/adapter/revenue/AdapterRevenue.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/patterns/adapter/revenue/IAdapterRevenue.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/repository/ExpenseRepository.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/repository/ExpenseTotal.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/repository/ExpenseTotalImpl.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/repository/ExpenseTotalRepository.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/repository/RevenueRepository.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/services/ExpenseService.java

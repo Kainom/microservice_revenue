@@ -26,7 +26,8 @@ public class Revenue {
     private String slug;
     private String description;
     private String tipo;
-    private String indexado;
+    private String indexado ;
     private Date carencia;
     private Double finalInvestimento;
 }
+

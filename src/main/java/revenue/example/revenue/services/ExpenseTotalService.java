@@ -3,16 +3,20 @@ package revenue.example.revenue.services;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import lombok.val;
+import revenue.example.revenue.dto.ExpensesTotalByMonthDTO;
 import revenue.example.revenue.model.ExpenseTotalByMonth;
+import revenue.example.revenue.repository.ExpenseTotal;
 import revenue.example.revenue.repository.ExpenseTotalRepository;
 import revenue.example.revenue.utils.ExpenseTotalUtil;
 
@@ -20,11 +24,18 @@ import revenue.example.revenue.utils.ExpenseTotalUtil;
 public class ExpenseTotalService {
 
     @Autowired
-    MongoTemplate mongo;
+    private MongoTemplate mongo;
 
     @Autowired
-    ExpenseTotalRepository expenseTotal;
+    private ExpenseTotalRepository expenseTotal;
+
+    @Autowired
+    private ExpenseTotal expenseTotalCustom;
     // Implement logic for ExpenseTotalService
+
+    public List<ExpensesTotalByMonthDTO> getExpenseTotalByThreeExpenseMonths(Integer year) {
+        return expenseTotalCustom.buscarTop3MesesComMaisGastos(year);
+    }
 
     public void incrementTotal(LocalDate date, Double value) {
         // Update ExpenseTotal by calculating total expenses for each month

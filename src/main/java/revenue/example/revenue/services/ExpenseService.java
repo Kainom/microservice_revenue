@@ -1,13 +1,16 @@
 package revenue.example.revenue.services;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException.NotFound;
 
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import revenue.example.revenue.dto.ExpenseDTO;
 import revenue.example.revenue.model.Expense;
@@ -25,7 +28,7 @@ public class ExpenseService {
     @CacheEvict(value = "expenses", allEntries = true)
     public ExpenseDTO createExpense(ExpenseDTO expenseDTO) {
         Expense expense = expenseAdapter.dtoToExpense(expenseDTO);
-        expense.setSlug(expense.getSlug() +" "+ UUID.randomUUID());
+        expense.setSlug(expense.getSlug() + " " + UUID.randomUUID());
 
         expenseTotalService.incrementTotal(expenseDTO.dataCriacao(), expense.getValue());
 
@@ -63,7 +66,7 @@ public class ExpenseService {
     }
 
     public ExpenseDTO getById(String id) {
-        return expenseAdapter.expenseToDTO(expenseRepository.findById(id).orElse(null));
+        return expenseAdapter.expenseToDTO(expenseRepository.findById(id).orElseThrow());
     }
 
     public List<ExpenseDTO> geAll() {
@@ -76,10 +79,12 @@ public class ExpenseService {
     @CacheEvict(value = "expenses", key = "#id")
     public void deleteExpense(String id) {
         Optional<Expense> expense = expenseRepository.findById(id);
-        if (expense.isPresent()) {
-            expenseTotalService.incrementTotal(expense.get().getDataCriacao(), expense.get().getValue() * -1);
-        }
+        if (!expense.isPresent()) {
+            throw new NoSuchElementException();
 
+        }
+        expenseTotalService.incrementTotal(expense.get().getDataCriacao(), expense.get().getValue() * -1);
         expenseRepository.deleteById(id);
+
     }
 }

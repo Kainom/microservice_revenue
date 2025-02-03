@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import revenue.example.revenue.model.ExpenseTotalByMonth;
 
 public interface ExpenseTotalRepository extends MongoRepository<ExpenseTotalByMonth,String> {
+    
 
      
 }
