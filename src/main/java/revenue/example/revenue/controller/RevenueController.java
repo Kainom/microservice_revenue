@@ -43,7 +43,7 @@ public class RevenueController {
     }
 
     @GetMapping("/slug/{slug}")
-    public ResponseEntity<RevenueDTO> create(@PathVariable("slug") String slug) {
+    public ResponseEntity<RevenueDTO> getBySlug(@PathVariable("slug") String slug) {
 
         RevenueDTO revenue = revenueService.getBySlug(slug);
         return ResponseEntity.ok(revenue);

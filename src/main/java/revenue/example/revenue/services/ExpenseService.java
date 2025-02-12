@@ -8,15 +8,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException.NotFound;
 
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import revenue.example.revenue.dto.ExpenseDTO;
+import revenue.example.revenue.enums.CategoryExpense;
 import revenue.example.revenue.model.Expense;
 import revenue.example.revenue.patterns.adapter.expense.IExpenseAdapter;
 import revenue.example.revenue.repository.ExpenseRepository;
-import revenue.example.revenue.utils.ExpenseTotalUtil;
 
 @Service
 @AllArgsConstructor
@@ -76,8 +75,20 @@ public class ExpenseService {
                 .collect(Collectors.toList());
     }
 
+    public List<ExpenseDTO> getAllByYearAndMonth(int year, int month) {
+        return null;
+    }
+
+    public List<ExpenseDTO> getAllByCategory(CategoryExpense category) {
+        return expenseRepository.getExpensesByCategory(
+                category)   
+                .stream()
+                .map(expenseAdapter::expenseToDTO)
+                .collect(Collectors.toList());
+    }
+
     @CacheEvict(value = "expenses", key = "#id")
-    public void deleteExpense(String id) {
+    public void deleteExpense(String id) {  
         Optional<Expense> expense = expenseRepository.findById(id);
         if (!expense.isPresent()) {
             throw new NoSuchElementException();

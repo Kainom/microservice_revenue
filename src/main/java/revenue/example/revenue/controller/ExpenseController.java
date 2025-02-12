@@ -1,5 +1,6 @@
 package revenue.example.revenue.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 import revenue.example.revenue.dto.ExpenseDTO;
 import revenue.example.revenue.dto.ExpensesTotalByMonthDTO;
+import revenue.example.revenue.enums.CategoryExpense;
 import revenue.example.revenue.services.ExpenseService;
 import revenue.example.revenue.services.ExpenseTotalService;
 
@@ -35,6 +37,17 @@ public class ExpenseController {
 
         return ResponseEntity.ok(expenseService.geAll());
     }
+    @GetMapping("/{year}")
+    public ResponseEntity<List<ExpenseDTO>> getAllExpensesByYearAndMonth(@PathVariable("year") Date date) {
+
+        return ResponseEntity.ok(expenseService.geAll());
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<ExpenseDTO>> getAllExpensesByCategory(@PathVariable("category") CategoryExpense category) {
+
+        return ResponseEntity.ok(expenseService.getAllByCategory(category));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ExpenseDTO> getExpenseById(@PathVariable("id") String id) {
@@ -48,7 +61,7 @@ public class ExpenseController {
     }
 
     @GetMapping("/total/{year}")
-    public ResponseEntity<List<ExpensesTotalByMonthDTO>> getTotalExpensesByThreeExpenseMonths(@PathVariable("year") Integer year) {
+    public ResponseEntity<List<ExpensesTotalByMonthDTO>> getTotalExpensesByThreeExpensiveMonths(@PathVariable("year") Integer year) {
         // Implement logic to retrieve total expenses for the top 3 months in the given year
         return ResponseEntity.ok(expenseTotalService.getExpenseTotalByThreeExpenseMonths(year));
     }
