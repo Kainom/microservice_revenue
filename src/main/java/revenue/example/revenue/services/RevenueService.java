@@ -30,7 +30,7 @@ public class RevenueService {
 
     public RevenueDTO getBySlug(String slug) {
         return adapterRevenue.toRevenueDTO(
-                revenueRepository.findRevenueBySlug(slug));
+                revenueRepository.findBySlug(slug));
     }
 
     public List<RevenueDTO> getRevenues() {

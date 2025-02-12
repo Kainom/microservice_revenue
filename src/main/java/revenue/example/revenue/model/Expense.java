@@ -1,7 +1,7 @@
 package revenue.example.revenue.model;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,13 +22,17 @@ public class Expense {
 
     private Double value;
 
-    private LocalDate dataCriacao;
+    private LocalDate paymentDay;
 
     @Field("category")
     private CategoryExpense category;
 
     private String description;
 
+    private String grove;
+
     private String slug;
+
+    private Parcela parcela;
 
 }

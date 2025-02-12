@@ -1,8 +1,11 @@
 package revenue.example.revenue.patterns.adapter.expense_total;
 
+import org.springframework.stereotype.Component;
+
 import revenue.example.revenue.dto.ExpensesTotalByMonthDTO;
 import revenue.example.revenue.model.ExpenseTotalByMonth;
 
+@Component
 public class AdapterExpenseTotal implements IAdapterExpenseTotal {
 
     @Override

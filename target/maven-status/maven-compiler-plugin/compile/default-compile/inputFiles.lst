@@ -7,12 +7,15 @@
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/dto/RevenueDTO.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/enums/CategoryExpense.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/enums/IndexRevenue.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/exception/ExceptionHandler.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/migrations/AddAnotherRevenue.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/migrations/AddAnotherRevenue002.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/migrations/AddNewFieldsRevenue.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/migrations/DatabaseChangelog.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/migrations/RenameFieldExpense.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/model/Expense.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/model/ExpenseTotalByMonth.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/model/Parcela.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/model/Revenue.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/patterns/adapter/expense/ExpenseAdapter.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/patterns/adapter/expense/IExpenseAdapter.java
@@ -23,7 +26,6 @@
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/repository/ExpenseRepository.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/repository/ExpenseTotal.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/repository/ExpenseTotalImpl.java
-/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/repository/ExpenseTotalRepository.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/repository/RevenueRepository.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/services/ExpenseService.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/services/ExpenseTotalService.java
