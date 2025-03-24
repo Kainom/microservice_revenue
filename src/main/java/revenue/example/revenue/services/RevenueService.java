@@ -46,6 +46,13 @@ public class RevenueService {
         revenueModel.setSlug(revenueModel.getSlug() + UUID.randomUUID().toString());
         return adapterRevenue.toRevenueDTO(revenueRepository.save(revenueModel));
     }
+
+    @CacheEvict(value = "revenues", key = "#id")
+    public RevenueDTO updateRevenue(String id, RevenueDTO revenue) {
+        Revenue revenueModel = adapterRevenue.toRevenue(revenue);
+        revenueModel.setId(id);
+        return adapterRevenue.toRevenueDTO(revenueRepository.save(revenueModel));
+}
  
     @CacheEvict(value = "revenues", key = "#id")
     public void deleteRevenue(String id) {

@@ -1,4 +1,4 @@
-package revenue.example.revenue.services;
+ackage revenue.example.revenue.services;
 
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -7,11 +7,16 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+
+import com.mongodb.client.result.UpdateResult;
 
 import lombok.AllArgsConstructor;
 import revenue.example.revenue.dto.ExpenseDTO;
@@ -26,6 +31,8 @@ public class ExpenseService {
     private ExpenseRepository expenseRepository;
     private IExpenseAdapter expenseAdapter;
 
+    private MongoTemplate mongoTemplate;
+
     public List<ExpenseDTO> getAllExpenses() {
         return expenseRepository.findAll().stream()
                 .map(expenseAdapter::expenseToDTO)
@@ -39,12 +46,12 @@ public class ExpenseService {
 
         String parcelaCommumId = UUID.randomUUID().toString();
         Double totalCompra = 0d;
-	Integer quantidadeDeParcela = 0;
-	if(expense.getParcela() != null){
-         quantidadeDeParcela = expense.getParcela().getQuantidadeDeParcela();
-	 totalCompra = (expense.getValue() * expense.getParcela().getQuantidadeDeParcela());
+        Integer quantidadeDeParcela = 0;
+        if (expense.getParcela() != null) {
+            quantidadeDeParcela = expense.getParcela().getQuantidadeDeParcela();
+            totalCompra = (expense.getValue() * expense.getParcela().getQuantidadeDeParcela());
 
-	}
+        }
         LocalDate dataCriacaoParcela = expense.getPaymentDay();
         LocalDate vencimento = expense.getPaymentDay().plusMonths(quantidadeDeParcela);
 
@@ -82,28 +89,74 @@ public class ExpenseService {
     }
 
     @CacheEvict(value = "expenses", allEntries = true)
-    public ExpenseDTO updateExpense(String id, ExpenseDTO expenseDTO) {
+    public ExpenseDTO update(String id, ExpenseDTO expenseDTO) {
         Optional<Expense> expense = expenseRepository.findById(id);
 
         if (!expense.isPresent()) {
-            throw new RuntimeException("Expense not found");
+           throw new RuntimeException("Expense not found");
         }
 
-        if (expenseDTO.nome() != null) {
-            expense.get().setNome(expenseDTO.nome());
+        // somente atualiza se houver parcela
+        if (expense.get().getParcela() != null) {
+
+            String parcelaCommumId = UUID.randomUUID().toString(); // i decided to share the id,because actually the
+                                                                   // same expense,but sliced
+            Double totalCompra = (expense.get().getValue() * expense.get().getParcela().getQuantidadeDeParcela());
+            Integer quantidadeDeParcela = expense.get().getParcela().getQuantidadeDeParcela();
+
+            LocalDate dataCriacaoParcela = expense.get().getPaymentDay();
+            LocalDate vencimento = expense.get().getPaymentDay().plusMonths(quantidadeDeParcela);
+
+            // If number of installments is equal to the number of installments of old
+            // expense means that is no necessary
+            // to create new installments, just update the old ones
+            if (expenseDTO.parcela().getQuantidadeDeParcela() == expense.get().getParcela().getNumberParcela()) {
+                Query query = new Query();
+                query.addCriteria(Criteria.where("id").is(id));
+                Update update = new Update();
+                update.set("totalCompra", totalCompra);
+                update.set("dataCriacaoParcela", dataCriacaoParcela);
+                update.set("dataVencimento", vencimento);
+
+                mongoTemplate.updateMulti(query, update, Expense.class);
+
+                return expenseAdapter.expenseToDTO(expenseRepository.save(expense.get()));
+
+            }
+            expenseRepository.deleteByParcelaId(expense.get().getParcela().getIdParcela()); // delete all installments
+
+            for (int i = 0; i < expense.get().getParcela().getQuantidadeDeParcela(); i++) {
+                Expense expenseParcelado = Expense.builder()
+                        .category(expenseDTO.category())
+                        .paymentDay(expense.get().getPaymentDay().plusMonths((i + 1)))
+                        .description(expenseDTO.description())
+                        .nome(expenseDTO.nome() + " " + (i + 1))
+                        .grove(expenseDTO.grove())
+                        .parcela(expenseDTO.parcela())
+                        .value(expenseDTO.value())
+                        .slug(expenseDTO.slug() + " " + UUID.randomUUID())
+                        .build();
+
+                expenseParcelado.getParcela().setDataCriacaoParcela(dataCriacaoParcela);
+                expenseParcelado.getParcela().setDataVencimento(vencimento);
+
+                expenseParcelado.getParcela().setIdParcela(parcelaCommumId);
+                expenseParcelado.getParcela().setTotalCompra(totalCompra);
+                expense.get().getParcela().setNumberParcela((i + 1));
+
+                expenseRepository.save(expenseParcelado);
+            }
+
+            return null;
+
         }
-        if (expenseDTO.value() != null) {
-            expense.get().setValue(expenseDTO.value());
-        }
-        if (expenseDTO.category() != null) {
-            expense.get().setCategory(expenseDTO.category());
-        }
-        if (expenseDTO.slug() != null) {
-            expense.get().setSlug(expenseDTO.slug());
-        }
-        if (expenseDTO.description() != null) {
-            expense.get().setDescription(expenseDTO.description());
-        }
+        expense.get().setCategory(expenseDTO.category());
+        expense.get().setDescription(expenseDTO.description());
+        expense.get().setGrove(expenseDTO.grove());
+        expense.get().setNome(expenseDTO.nome());
+        expense.get().setPaymentDay(expenseDTO.paymentDay());
+        expense.get().setValue(expenseDTO.value());
+        expense.get().setSlug(expense.nome() + " " + UUID.randomUUID());
 
         return expenseAdapter.expenseToDTO(expenseRepository.save(expense.get()));
     }
@@ -124,12 +177,12 @@ public class ExpenseService {
         return expenseAdapter.expenseToDTO(expenseRepository.findBySlug(slug));
 
     }
-    
+
     public List<ExpenseDTO> getExpenseByParcelaId(String parcelaId) {
         return expenseRepository.findByParcelaId(parcelaId)
-               .stream()
-               .map(expenseAdapter::expenseToDTO)
-               .collect(Collectors.toList());
+                .stream()
+                .map(expenseAdapter::expenseToDTO)
+                .collect(Collectors.toList());
     }
 
     public List<ExpenseDTO> getAllByYearAndMonth(Integer year, Integer month) {
@@ -171,8 +224,8 @@ public class ExpenseService {
         if (expenses.isEmpty()) {
             throw new NoSuchElementException();
         }
-        
+
         expenseRepository.deleteByParcelaId(idInstallment);
-        
+
     }
 }

@@ -57,12 +57,7 @@ public class ExpenseController {
     @GetMapping("/{id}")
     public ResponseEntity<ExpenseDTO> getExpenseById(@PathVariable("id") String id) {
         // Implement logic to retrieve expense by id
-        try {
-            return ResponseEntity.ok(expenseService.getById(id));
-
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
-        }
+       return ResponseEntity.ok(expenseService.getById(id));
     }
 
     @GetMapping("/slug/{slug}")
@@ -121,9 +116,8 @@ public class ExpenseController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ExpenseDTO> updateExpense(@PathVariable("id") String id, @RequestBody ExpenseDTO expense) {
-        // Implement logic to update existing expense
-        return ResponseEntity.ok(
-                expenseService.updateExpense(id, expense));
+        return ResponseEntity.ok(expenseService.update(id, expense));
+      
     }
 
     @DeleteMapping("/{id}")

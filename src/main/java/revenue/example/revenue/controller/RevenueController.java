@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +28,7 @@ public class RevenueController {
 
     @GetMapping("/")
     public ResponseEntity<List<RevenueDTO>> getAll() {
-        Long start =  System.currentTimeMillis();
+        Long start = System.currentTimeMillis();
         List<RevenueDTO> revenues = revenueService.getRevenues();
         Long end = System.currentTimeMillis();
         System.out.println("Time taken by getAll: " + (end - start) + "ms");
@@ -49,9 +50,14 @@ public class RevenueController {
         return ResponseEntity.ok(revenue);
     }
 
-    
     @PostMapping("/")
     public ResponseEntity<RevenueDTO> create(@RequestBody RevenueDTO revenue) {
+        RevenueDTO savedRevenue = revenueService.storeRevenue(revenue);
+        return ResponseEntity.ok(savedRevenue);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<RevenueDTO> update(@PathVariable("id") Long id, @RequestBody RevenueDTO revenue) {
         RevenueDTO savedRevenue = revenueService.storeRevenue(revenue);
         return ResponseEntity.ok(savedRevenue);
     }
