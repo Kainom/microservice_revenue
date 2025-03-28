@@ -1,4 +1,4 @@
-ackage revenue.example.revenue.services;
+package revenue.example.revenue.services;
 
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -16,7 +16,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import com.mongodb.client.result.UpdateResult;
 
 import lombok.AllArgsConstructor;
 import revenue.example.revenue.dto.ExpenseDTO;
@@ -156,7 +155,7 @@ public class ExpenseService {
         expense.get().setNome(expenseDTO.nome());
         expense.get().setPaymentDay(expenseDTO.paymentDay());
         expense.get().setValue(expenseDTO.value());
-        expense.get().setSlug(expense.nome() + " " + UUID.randomUUID());
+        expense.get().setSlug(expense.get().getNome() + " " + UUID.randomUUID());
 
         return expenseAdapter.expenseToDTO(expenseRepository.save(expense.get()));
     }
