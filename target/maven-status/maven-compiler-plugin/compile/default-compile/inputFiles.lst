@@ -27,6 +27,7 @@
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/repository/ExpenseTotal.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/repository/ExpenseTotalImpl.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/repository/RevenueRepository.java
+/home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/security/SecurityConfig.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/services/ExpenseService.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/services/ExpenseTotalService.java
 /home/kainom/meusprojetos/revenue/src/main/java/revenue/example/revenue/services/RevenueService.java

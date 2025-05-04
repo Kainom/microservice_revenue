@@ -34,6 +34,8 @@ public class ExpenseTotalImpl implements ExpenseTotal {
                                 .getMappedResults();
 
                 Double total = list.isEmpty() ? 0.0 : list.get(0).getDouble("total");
+                String numeroFormatado = String.format("%.2f", total);
+                total = Double.parseDouble(numeroFormatado);
 
                 // Retorna o total ou 0 caso não haja despesas
                 return new ExpensesTotalByMonthDTO((year + "-" + month), total);
@@ -41,7 +43,7 @@ public class ExpenseTotalImpl implements ExpenseTotal {
         }
 
         @Override
-        public List<ExpensesTotalByMonthDTO> geTotalExpenseAtYearOrAtCurrentMonth(Integer ano,Integer currentMonth) {
+        public List<ExpensesTotalByMonthDTO> geTotalExpenseAtYearOrAtCurrentMonth(Integer ano, Integer currentMonth) {
                 // 1. Filtra pelo ano especificado
                 // or
                 // 2. Filtra pelo ano ate o presente momemento
@@ -80,6 +82,8 @@ public class ExpenseTotalImpl implements ExpenseTotal {
                                         Integer year = id.getInteger("year");
                                         Integer month = id.getInteger("month");
                                         Double total = doc.getDouble("total");
+                                        String numeroFormatado = String.format("%.2f", total);
+                                        total = Double.parseDouble(numeroFormatado);
 
                                         return new ExpensesTotalByMonthDTO(year + "-" + month, total);
                                 })
@@ -87,7 +91,7 @@ public class ExpenseTotalImpl implements ExpenseTotal {
         }
 
         @Override
-        public List<ExpensesTotalByMonthDTO> buscarTop3MesesComMaisGastos(Integer ano,Integer currentMonth) {
+        public List<ExpensesTotalByMonthDTO> buscarTop3MesesComMaisGastos(Integer ano, Integer currentMonth) {
                 Integer plus = 1;
                 Integer monthQuery = 1;
                 if (currentMonth != null) {
@@ -95,7 +99,8 @@ public class ExpenseTotalImpl implements ExpenseTotal {
                         // i need get the previous months and current month,however i set the limit one
                         // month more
                         monthQuery = currentMonth != 12 ? currentMonth + 1 : 1;
-                        // no mes 12 eu avanço um ano e deixo o mes em janeiro para pegar todos os meses do ano 
+                        // no mes 12 eu avanço um ano e deixo o mes em janeiro para pegar todos os meses
+                        // do ano
                         // que esta se findando
                 }
 
@@ -103,7 +108,7 @@ public class ExpenseTotalImpl implements ExpenseTotal {
                                 Aggregation.match(
                                                 Criteria.where("paymentDay")
                                                                 .gte(LocalDate.of(ano, 1, 1))
-                                                        .lt(LocalDate.of( ano, monthQuery, 1).plusYears(plus))),
+                                                                .lt(LocalDate.of(ano, monthQuery, 1).plusYears(plus))),
                                 Aggregation.project()
                                                 .andExpression("year(paymentDay)").as("year")
                                                 .andExpression("month(paymentDay)").as("month")
@@ -122,10 +127,28 @@ public class ExpenseTotalImpl implements ExpenseTotal {
                                         Integer year = id.getInteger("year");
                                         Integer month = id.getInteger("month");
                                         Double total = doc.getDouble("total");
-
+                                        String numeroFormatado = String.format("%.2f", total);
+                                        total = Double.parseDouble(numeroFormatado);
                                         return new ExpensesTotalByMonthDTO(year + "-" + month, total);
                                 })
                                 .toList();
+        }
+
+        public Double getTotalAmountByYear(Integer year) {
+                LocalDate startDate = LocalDate.of(year, 1, 1);
+                LocalDate endDate = LocalDate.of(year + 1, 1, 1);
+
+                return mongoTemplate.aggregate(Aggregation.newAggregation(
+                                Aggregation.match(Criteria.where("paymentDay").gte(startDate)
+                                                .lt(endDate)),
+                                Aggregation.group().sum("value").as("total")),
+                                "expenses", Document.class)
+                                .getMappedResults()
+                                .stream()
+                                .map(doc -> doc.getDouble("total"))
+                                .findFirst()
+                                .orElse(0.0);
+
         }
 
 }

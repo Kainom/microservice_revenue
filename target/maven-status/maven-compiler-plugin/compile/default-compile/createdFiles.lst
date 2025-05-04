@@ -7,6 +7,7 @@ revenue/example/revenue/patterns/adapter/expense_total/IAdapterExpenseTotal.clas
 revenue/example/revenue/RevenueApplication.class
 revenue/example/revenue/controller/RevenueController.class
 revenue/example/revenue/repository/ExpenseRepository.class
+revenue/example/revenue/security/SecurityConfig.class
 revenue/example/revenue/patterns/adapter/revenue/IAdapterRevenue.class
 revenue/example/revenue/patterns/adapter/expense/ExpenseAdapter.class
 revenue/example/revenue/model/ExpenseTotalByMonth.class

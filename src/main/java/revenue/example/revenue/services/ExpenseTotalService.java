@@ -1,25 +1,18 @@
 package revenue.example.revenue.services;
 
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import lombok.val;
 import revenue.example.revenue.dto.ExpensesTotalByMonthDTO;
-import revenue.example.revenue.model.ExpenseTotalByMonth;
-import revenue.example.revenue.patterns.adapter.expense.IExpenseAdapter;
+import revenue.example.revenue.model.Expense;
 import revenue.example.revenue.patterns.adapter.expense_total.IAdapterExpenseTotal;
+import revenue.example.revenue.repository.ExpenseRepository;
 import revenue.example.revenue.repository.ExpenseTotal;
-import revenue.example.revenue.utils.ExpenseTotalUtil;
 
 @Service
 public class ExpenseTotalService {
@@ -33,18 +26,38 @@ public class ExpenseTotalService {
     @Autowired
     private IAdapterExpenseTotal expenseTotalAdapter;
 
+    @Autowired
+    private ExpenseRepository expenseRepository;
+
     // Implement logic for ExpenseTotalService
 
-    public List<ExpensesTotalByMonthDTO> getExpenseTotalByThreeExpenseMonths(Integer year,Integer month) {
-        return expenseTotalCustom.buscarTop3MesesComMaisGastos(year,month);
+    public List<ExpensesTotalByMonthDTO> getExpenseTotalByThreeExpenseMonths(Integer year, Integer month) {
+        return expenseTotalCustom.buscarTop3MesesComMaisGastos(year, month);
     }
 
-    public List<ExpensesTotalByMonthDTO> getAllTotalExpensesAtMonthByYearOrUntilCurrentMonth(Integer year,Integer month) {
-        return expenseTotalCustom.geTotalExpenseAtYearOrAtCurrentMonth(year,month);
+    public List<ExpensesTotalByMonthDTO> getAllTotalExpensesAtMonthByYearOrUntilCurrentMonth(Integer year,
+            Integer month) {
+        return expenseTotalCustom.geTotalExpenseAtYearOrAtCurrentMonth(year, month);
     }
 
     public ExpensesTotalByMonthDTO getTotalExpensesAtMonth(Integer year, Integer month) {
         return expenseTotalCustom.getTotalExpensesAtMonth(year, month);
+    }
+
+    public Double findTotalAmountByYear(Integer year) {
+        // Calendar calendar = Calendar.getInstance();
+        // // Data de início do mês
+        // calendar.set(year, 1, 1, 0, 0, 0);
+        // calendar.set(Calendar.MILLISECOND, 0);
+        // Date init = calendar.getTime();
+
+        // // Data de fim (primeiro dia do próximo mês)
+        // calendar.set(year + 1, 1, 1, 0, 0, 0);
+        // Date finall = calendar.getTime();
+
+        // return expenseRepository.findByMonthAndYear(init, finall).stream()
+        //         .mapToDouble(Expense::getValue).sum();
+        return expenseTotalCustom.getTotalAmountByYear(year);
     }
 
     // pega o total de gastos de cada mes de um dado ano

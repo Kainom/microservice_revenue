@@ -57,7 +57,7 @@ public class ExpenseController {
     @GetMapping("/{id}")
     public ResponseEntity<ExpenseDTO> getExpenseById(@PathVariable("id") String id) {
         // Implement logic to retrieve expense by id
-       return ResponseEntity.ok(expenseService.getById(id));
+        return ResponseEntity.ok(expenseService.getById(id));
     }
 
     @GetMapping("/slug/{slug}")
@@ -107,6 +107,11 @@ public class ExpenseController {
         return ResponseEntity.ok(expenseTotalService.getAllTotalExpensesAtMonthByYearOrUntilCurrentMonth(year, month));
     }
 
+    @GetMapping("/total-amount/{year}")
+    public ResponseEntity<Double> getTotalAmountByYear(@PathVariable("year") Integer year) {
+        return ResponseEntity.ok(expenseTotalService.findTotalAmountByYear(year));
+    }
+
     @PostMapping("/")
     public ResponseEntity<ExpenseDTO> createExpense(@RequestBody ExpenseDTO expense) {
         // Implement logic to create new expense
@@ -117,7 +122,7 @@ public class ExpenseController {
     @PutMapping("/{id}")
     public ResponseEntity<ExpenseDTO> updateExpense(@PathVariable("id") String id, @RequestBody ExpenseDTO expense) {
         return ResponseEntity.ok(expenseService.update(id, expense));
-      
+
     }
 
     @DeleteMapping("/{id}")
