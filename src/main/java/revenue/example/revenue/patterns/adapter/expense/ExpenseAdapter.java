@@ -24,12 +24,14 @@ public class ExpenseAdapter implements IExpenseAdapter {
 
     @Override
     public Expense dtoToExpense(ExpenseDTO expenseDTO) {
+        String formatedValue = String.format("%.2f", expenseDTO.value());
+        Double value = Double.parseDouble(formatedValue);
         return Expense.builder()
                 .category(expenseDTO.category())
                 .paymentDay(expenseDTO.paymentDay())
                 .description(expenseDTO.description())
                 .nome(expenseDTO.nome())
-                .value(expenseDTO.value())
+                .value(value)
                 .grove(expenseDTO.grove())
                 .slug(expenseDTO.slug())
                 .parcela(expenseDTO.parcela())

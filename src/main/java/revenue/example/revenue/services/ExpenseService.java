@@ -206,6 +206,8 @@ public class ExpenseService {
                 .filter(expense -> expense.category().equals(category)).toList();
     }
 
+
+
     @CacheEvict(value = "expenses", key = "#id")
     public void deleteExpense(String id) {
         Optional<Expense> expense = expenseRepository.findById(id);
