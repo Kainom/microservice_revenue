@@ -19,6 +19,7 @@ public class ExpenseAdapter implements IExpenseAdapter {
                 expense.getDescription(),
                 expense.getGrove(),
                 expense.getSlug(),
+                expense.getUserId(),
                 expense.getParcela());
     }
 
@@ -34,6 +35,7 @@ public class ExpenseAdapter implements IExpenseAdapter {
                 .value(value)
                 .grove(expenseDTO.grove())
                 .slug(expenseDTO.slug())
+                .userId(expenseDTO.userId())
                 .parcela(expenseDTO.parcela())
                 .build();
 

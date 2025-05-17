@@ -35,4 +35,6 @@ public class Expense {
 
     private Parcela parcela;
 
+    private String userId;
+
 }

@@ -10,15 +10,15 @@ import revenue.example.revenue.model.Parcela;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ExpenseDTO(
-                String id,
-                String nome,
-                Double value,
-                CategoryExpense category,
-                LocalDate paymentDay,
-                String description,
-                String grove,
-                String slug,
-                Parcela parcela
-                ) {
+        String id,
+        String nome,
+        Double value,
+        CategoryExpense category,
+        LocalDate paymentDay,
+        String description,
+        String grove,
+        String slug,
+        String userId,
+        Parcela parcela) {
 
 }

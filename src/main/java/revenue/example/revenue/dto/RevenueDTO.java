@@ -16,7 +16,8 @@ public record RevenueDTO(
                 String description,
                 String tipo,
                 String indexado,
-                Date carencia,
+        Date carencia,
+        String userId,
                 Double finalInvestimento) {
 
 }

@@ -23,6 +23,7 @@ public class AdapterRevenue implements IAdapterRevenue {
                 revenue.getTipo(),
                 revenue.getIndexado(),
                 revenue.getCarencia(),
+                revenue.getUserId(),
                 revenue.getFinalInvestimento());
     }
 
@@ -42,6 +43,7 @@ public class AdapterRevenue implements IAdapterRevenue {
                 .tipo(revenueDTO.tipo())
                 .indexado(revenueDTO.indexado())
                 .carencia(revenueDTO.carencia())
+                .userId(revenueDTO.userId())
                 .finalInvestimento(revenueDTO.finalInvestimento())
                 .build();
     }

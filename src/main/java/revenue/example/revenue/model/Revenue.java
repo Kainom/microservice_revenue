@@ -28,6 +28,7 @@ public class Revenue {
     private String tipo;
     private String indexado ;
     private Date carencia;
+    private String userId;
     private Double finalInvestimento;
 }
 
